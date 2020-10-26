@@ -1,0 +1,29 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo "Installing Packer"
+      - curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add -
+      - apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+      - apt-get update && apt-get install packer
+      - echo "Validating Packer template"
+      - packer validate build-ami.json
+  build:
+    commands:
+      - ls | grep build-ami.json
+      - echo $CODEBUILD_RESOLVED_SOURCE_VERSION
+      - packer build -color=false -var 'commit_id="${CODEBUILD_RESOLVED_SOURCE_VERSION}"' build-ami.json | tee build.log
+  post_build:
+    commands:
+      - egrep "${AWS_REGION}\:\sami\-" build.log | cut -d' ' -f2 > ami_id.txt
+      # Packer doesn't return non-zero status; we must do that if Packer build failed
+      - test -s ami_id.txt || exit 1
+      - sed -i.bak "s/<<AMI-ID>>/$(cat ami_id.txt)/g" ami_builder_event.json
+      - aws events put-events --entries file://ami_builder_event.json
+      - echo "build completed on `date`"
+artifacts:
+  files:
+    - ami_builder_event.json
+    - build.log
+  discard-paths: yes

@@ -1,0 +1,54 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": "ec2:DescribeLaunchTemplateVersions",
+            "Resource": "*"
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": [
+                "sns:Publish",
+                "ec2:ModifyLaunchTemplate",
+                "ec2:DeleteLaunchTemplateVersions",
+                "ec2:CreateLaunchTemplateVersion",
+                "autoscaling:PutScheduledUpdateGroupAction"
+            ],
+            "Resource": [
+                "arn:aws:ec2:*:${var.account_id}:launch-template/*",
+                "arn:aws:autoscaling:${var.region}:${var.account_id}:autoScalingGroup:*",
+                "arn:aws:sns:${var.region}:${var.account_id}:new-ami-notification"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": "logs:CreateLogGroup",
+            "Resource": "arn:aws:logs:${var.region}:${var.account_id}:*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": [
+                "arn:aws:logs:${var.region}:${var.account_id}:log-group:/aws/lambda/UpdateASG:*"
+            ]
+        },
+        {
+            "Version": "2012-10-17",
+            "Statement": [
+            {
+                "Effect": "Allow",
+                "Principal": {
+                    "Service": "lambda.amazonaws.com"
+                },
+            "Action": "sts:AssumeRole"
+            }
+            ]
+        }
+    ]
+}

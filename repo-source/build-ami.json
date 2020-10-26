@@ -1,0 +1,39 @@
+{
+  "variables": {
+    "region": "us-east-1",
+    "application" : ""
+
+  },
+  "builders": [
+    {
+      "type"   : "amazon-ebs",      
+      "ami_name": "GitLab-GoldenAMI-{{timestamp}}",
+      "instance_type": "t2.micro",
+      "region": "{{user `region`}}",
+      "ssh_username": "ubuntu",
+      "force_deregister" : true,
+      "source_ami": "ami-0dba2cb6798deb6d8",
+      "tags": {
+        "Name": "Golden-AMI",
+        "Time": "{{ isotime }}",
+        "CommitID": "{{user `commit_id`}}"
+      },
+      "snapshot_tags": {
+        "Name": "Golden-AMI-SNAPSHOT",
+        "Time": "{{ isotime }}",
+        "CommitID": "{{user `commit_id`}}"
+      }
+    }  
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "scripts/bootstrap.sh",
+      "destination": "/home/ubuntu/"
+    },
+    {
+      "type": "shell",
+      "inline": ["sudo chmod +x /home/ubuntu/bootstrap.sh","sudo /home/ubuntu/bootstrap.sh"]
+    }
+  ]
+}

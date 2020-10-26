@@ -1,0 +1,10 @@
+event = """{
+        "Source": "com.ami.builder",
+        "DetailType": "AmiBuilder",
+        "Detail": "{ 'AmiStatus': 'Created'}",
+        "Resources": [ "<<AMI-ID>>" ]
+}
+"""
+
+new_dict = json.loads(event)
+new_ami = new_dict["Resources"][0]
