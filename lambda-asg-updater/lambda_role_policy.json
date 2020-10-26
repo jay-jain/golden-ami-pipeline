@@ -18,15 +18,15 @@
                 "autoscaling:PutScheduledUpdateGroupAction"
             ],
             "Resource": [
-                "arn:aws:ec2:*:${var.account_id}:launch-template/*",
-                "arn:aws:autoscaling:${var.region}:${var.account_id}:autoScalingGroup:*",
-                "arn:aws:sns:${var.region}:${var.account_id}:new-ami-notification"
+                "arn:${var.arn_format}:ec2:*:${var.account_id}:launch-template/*",
+                "arn:${var.arn_format}:autoscaling:${var.region}:${var.account_id}:autoScalingGroup:*",
+                "arn:${var.arn_format}:sns:${var.region}:${var.account_id}:new-ami-notification"
             ]
         },
         {
             "Effect": "Allow",
             "Action": "logs:CreateLogGroup",
-            "Resource": "arn:aws:logs:${var.region}:${var.account_id}:*"
+            "Resource": "arn:${var.arn_format}:logs:${var.region}:${var.account_id}:*"
         },
         {
             "Effect": "Allow",
@@ -35,7 +35,7 @@
                 "logs:PutLogEvents"
             ],
             "Resource": [
-                "arn:aws:logs:${var.region}:${var.account_id}:log-group:/aws/lambda/UpdateASG:*"
+                "arn:${var.arn_format}:logs:${var.region}:${var.account_id}:log-group:/aws/lambda/UpdateASG:*"
             ]
         },
         {

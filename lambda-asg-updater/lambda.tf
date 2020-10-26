@@ -22,15 +22,15 @@ resource "aws_iam_role" "iam_for_lambda" {
                 "autoscaling:PutScheduledUpdateGroupAction"
             ],
             "Resource": [
-                "arn:aws:ec2:*:${var.account_id}:launch-template/*",
-                "arn:aws:autoscaling:${var.region}:${var.account_id}:autoScalingGroup:*",
-                "arn:aws:sns:${var.region}:${var.account_id}:new-ami-notification"
+                "arn:${var.arn_format}:ec2:*:${var.account_id}:launch-template/*",
+                "arn:${var.arn_format}:autoscaling:${var.region}:${var.account_id}:autoScalingGroup:*",
+                "arn:${var.arn_format}:sns:${var.region}:${var.account_id}:new-ami-notification"
             ]
         },
         {
             "Effect": "Allow",
             "Action": "logs:CreateLogGroup",
-            "Resource": "arn:aws:logs:${var.region}:${var.account_id}:*"
+            "Resource": "arn:${var.arn_format}:logs:${var.region}:${var.account_id}:*"
         },
         {
             "Effect": "Allow",
@@ -39,7 +39,7 @@ resource "aws_iam_role" "iam_for_lambda" {
                 "logs:PutLogEvents"
             ],
             "Resource": [
-                "arn:aws:logs:${var.region}:${var.account_id}:log-group:/aws/lambda/UpdateASG:*"
+                "arn:${var.arn_format}:logs:${var.region}:${var.account_id}:log-group:/aws/lambda/UpdateASG:*"
             ]
         },
         {
@@ -64,7 +64,7 @@ resource "aws_lambda_permission" "allow_cloudwatch" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.test_lambda.function_name
   principal     = "events.amazonaws.com"
-  source_arn    = "arn:aws:events:${var.region}:${var.account_id}:rule/capture-new-ami"  
+  source_arn    = "arn:${var.arn_format}:events:${var.region}:${var.account_id}:rule/capture-new-ami"  
 }
 
 resource "aws_lambda_function" "test_lambda" {

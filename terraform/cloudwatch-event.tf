@@ -22,5 +22,5 @@ EOF
 
 resource "aws_cloudwatch_event_target" "sns_topic" {  
   rule      = aws_cloudwatch_event_rule.new_ami.name
-  arn       = "arn:aws:lambda:${var.region}:${var.account_id}:function:UpdateASG"
+  arn       = "arn:${var.arn_format}:lambda:${var.region}:${var.account_id}:function:UpdateASG"
 }

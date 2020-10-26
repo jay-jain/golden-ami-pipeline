@@ -64,7 +64,7 @@ POLICY
 
 resource "aws_iam_role_policy_attachment" "test-attach" {
   role       = aws_iam_role.service_role.name
-  policy_arn = "arn:aws:iam::aws:policy/PowerUserAccess"
+  policy_arn = "arn:${var.arn_format}:iam::aws:policy/PowerUserAccess"
 }
 
 resource "aws_codebuild_project" "example" {

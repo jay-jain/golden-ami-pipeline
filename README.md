@@ -42,7 +42,7 @@ https://misterorion.com/lambda-update-ami
 For example, in the packer script in the builder section:
 ```"temporary_security_group_source_cidrs" : "['10.0.0.0/8']"```
 
-* In the terraform code, specify encryption for snapshots, AMIs, etc
+* In the terraform code, make sure snapshots, AMIs, volumes, are encrypted
 
 * In the `buildspec.yml` file, fix the `CODEBUILD_RESOLVED_SOURCE_VERSION` environment variable so that it can be used as a tag on the AMI.
 
@@ -50,7 +50,9 @@ For example, in the packer script in the builder section:
 
 * In the `buildspec.yml`, pass in a application prefix variable to `packer build` that can be used in the ami name. 
 
-* Add support gov-cloud arns: ```aws-us-gov```
+* Integrate `snapshots.py` into main lambda function ( `lambda_handler.py`)
+
+* ~~Add support gov-cloud arns: ```aws-us-gov```~~
 
 ## Sample terraform.tfvars file
 ```
