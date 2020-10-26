@@ -1,8 +1,8 @@
 # Golden AMI Pipeline
 This project has two main components:
-* The [terraform](link) repository used to deploy the pipeline (CodeCommit, CodeBuild, CodePipeline, S3 Artifact Bucket, Launch Template, AutoScaling Group, Lambda Function, and SNS Topic) 
+* The [terraform](./terraform/) repository used to deploy the pipeline (CodeCommit, CodeBuild, CodePipeline, S3 Artifact Bucket, Launch Template, AutoScaling Group, Lambda Function, and SNS Topic) 
 
-* The [repo-source](link) repository which contains the Packer script, the build script sused int he Packer AMI build, the buildspec file used in CodeBuild, and the CloudWatch Event JSON template.
+* The [repo-source](./repo-source/) repository which contains the Packer script, the build script used in the Packer AMI build, the buildspec file used in CodeBuild, and the CloudWatch Event JSON template.
 
 ## How to Use
 To deploy this pipeline, you must deploy the terraform project first with:
@@ -11,7 +11,7 @@ To deploy this pipeline, you must deploy the terraform project first with:
 * Make sure your AWS CLI is configured correctly before you run these commands.
 * This will construct your pipeline components and will output the SSH URL of your Code Commit Repository.
 * If you have not configured Code Commit for SSH access you will have to go in the console to upload your SSH public key and you will also need to modify your git configuration on your local machine. If you got to the Code Commit console, you will find instructions there on how to set this up before you can successfully clone your repo.
-* Once you have cloned your empty repo, you should add the contents of the [repo-source](link) directory to your new Code Commmit repository.
+* Once you have cloned your empty repo, you should add the contents of the [repo-source](./repo-source/) directory to your new Code Commmit repository.
 * Now you can commit and push the code with:
 ```
 git add .
@@ -38,6 +38,9 @@ https://aws.amazon.com/blogs/devops/how-to-create-an-ami-builder-with-aws-codebu
 https://misterorion.com/lambda-update-ami
 
 ## To Dos:
+
+* Lambda function (located in `lambda-asg-updater/` directory) needs to be integrated into main `terraform/` directory once it is fixed.
+
 * Restricting IP for the temporary Security Group created by Packer.
 For example, in the packer script in the builder section:
 ```"temporary_security_group_source_cidrs" : "['10.0.0.0/8']"```
