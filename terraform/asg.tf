@@ -55,7 +55,7 @@ resource "aws_autoscaling_group" "asg" {
 }
 
 resource "aws_launch_template" "launch_template" {
-  name                                 = "${var.application}"
+  name                                 = var.application
   image_id                             = var.base_ami # Default Ubuntu Server 20.04 AMI provided by AWS
   instance_initiated_shutdown_behavior = "terminate"
   instance_type                        = var.instance_type
