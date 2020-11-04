@@ -37,6 +37,8 @@ https://aws.amazon.com/blogs/devops/how-to-create-an-ami-builder-with-aws-codebu
 
 https://misterorion.com/lambda-update-ami
 
+https://gist.github.com/luhn/802f33ce763452b7c3b32bb594e0d54d
+
 ## To Dos:
 
 * Lambda function (located in `lambda-asg-updater/` directory) needs to be integrated into main `terraform/` directory once it is fixed.
